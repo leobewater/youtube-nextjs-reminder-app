@@ -27,6 +27,7 @@ import {
 import { deleteCollection } from '@/actions/collection';
 import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
+import CreateTaskDialog from './CreateTaskDialog';
 
 interface Props {
   // extends collection to include tasks
