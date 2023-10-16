@@ -21,6 +21,16 @@ import {
   FormMessage,
 } from './ui/form';
 import { Input } from './ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import { CollectionColor, CollectionColors } from '@/lib/constants';
+import { cn } from '@/lib/utils';
+
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -57,6 +67,48 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
                     <Input placeholder="Personal" {...field} />
                   </FormControl>
                   <FormDescription>Collection name</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Color</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={(color) => field.onChange(color)}>
+                      <SelectTrigger
+                        className={cn(
+                          'w-full h-8 text-white',
+                          CollectionColors[field.value as CollectionColor]
+                        )}
+                      >
+                        <SelectValue
+                          placeholder="Color"
+                          className="w-full h-8"
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="w-full">
+                        {Object.keys(CollectionColors).map((color) => (
+                          <SelectItem
+                            key={color}
+                            value={color}
+                            className={cn(
+                              `w-full h-8 rounded-md my-1 text-white focus:text-white focus:font-bold focus:ring-2 ring-neutral-600 focus:ring-inset dark:focus:ring-white focus:px-8`,
+                              CollectionColors[color as CollectionColor]
+                            )}
+                          >
+                            {color}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>
+                    Select a color for your collection
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
