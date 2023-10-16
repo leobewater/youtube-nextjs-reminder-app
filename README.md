@@ -6,7 +6,8 @@ Video: https://www.youtube.com/watch?v=jAMVODrNd9I&ab_channel=CodewithKliton
 > npx shadcn-ui@latest init
 > npx shadcn-ui@latest add
 > npm install next-themes
-
+> npm i @prisma/client
+> npm i -D prisma
 ```
 
 ## To Run
