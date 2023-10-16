@@ -30,6 +30,8 @@ export async function deleteCollection(id: number) {
     throw new Error('user not found');
   }
 
+  // await wait(5000);
+
   return await prisma.collection.delete({
     where: {
       userId: user.id,
