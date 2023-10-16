@@ -1,7 +1,7 @@
 'use client';
 
 import { Collection } from '@prisma/client';
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import {
   Collapsible,
   CollapsibleContent,
@@ -35,6 +35,7 @@ interface Props {
 const CollectionCard = ({ collection }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
+  const [isLoading, startTransition] = useTransition();
 
   const removeCollection = async () => {
     try {
@@ -87,31 +88,36 @@ const CollectionCard = ({ collection }: Props) => {
         <Separator />
         <footer className="h-[40px] px-4 p-[2px] text-xs text-neutral-500 flex justify-between items-center">
           <p>Created at {collection.createdAt.toLocaleDateString('en-US')}</p>
-          <div>
-            <Button size={'icon'} variant={'ghost'}>
-              <PlusIcon />
-            </Button>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button size={'icon'} variant={'ghost'}>
-                  <TrashIcon className="" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your collection and all tasks inside it.
-                </AlertDialogDescription>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => removeCollection()}>
-                    Process
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
+          {isLoading && <div>Deleting...</div>}
+          {!isLoading && (
+            <div>
+              <Button size={'icon'} variant={'ghost'}>
+                <PlusIcon />
+              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button size={'icon'} variant={'ghost'}>
+                    <TrashIcon className="" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your collection and all tasks inside it.
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => startTransition(removeCollection)}
+                    >
+                      Process
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          )}
         </footer>
       </CollapsibleContent>
     </Collapsible>
