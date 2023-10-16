@@ -90,7 +90,7 @@ const CollectionCard = ({ collection }: Props) => {
               <Progress className="rounded-none" value={45} />
               <div className="p-4 gap-3 flex flex-col">
                 {tasks.map((task) => (
-                  <div key={task.id}>Mocked Task</div>
+                  <div key={task.id}>{task.content}</div>
                 ))}
               </div>
             </>
