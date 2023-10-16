@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from './ui/dialog';
@@ -24,8 +25,11 @@ import { Textarea } from './ui/textarea';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Calendar } from './ui/calendar';
 import { Button } from './ui/button';
-import { CalendarIcon } from '@radix-ui/react-icons';
+import { CalendarIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { format } from 'date-fns';
+import { createTask } from '@/actions/task';
+import { toast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   open: boolean;
@@ -41,12 +45,32 @@ const CreateTaskDialog = ({ open, collection, setOpen }: Props) => {
     },
   });
 
+  const router = useRouter();
+
   const openChangeWrapper = (value: boolean) => {
+    form.reset();
     setOpen(value);
   };
 
   const onSubmit = async (data: createTaskSchemaType) => {
-    console.log('SUBMITTED DATA', data);
+    // console.log('SUBMITTED DATA', data);
+    try {
+      await createTask(data);
+
+      toast({
+        title: 'Success',
+        description: 'Task created successfully',
+      });
+
+      openChangeWrapper(false);
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Cannot create task',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -69,7 +93,7 @@ const CreateTaskDialog = ({ open, collection, setOpen }: Props) => {
             to a collection.
           </DialogDescription>
         </DialogHeader>
-        <div>
+        <div className="gap-4 py-4">
           <Form {...form}>
             <form
               className="space-y-4 flex flex-col"
@@ -133,6 +157,21 @@ const CreateTaskDialog = ({ open, collection, setOpen }: Props) => {
             </form>
           </Form>
         </div>
+        <DialogFooter>
+          <Button
+            disabled={form.formState.isSubmitting}
+            className={cn(
+              'w-full dark:text-white text-white',
+              CollectionColors[collection.color as CollectionColor]
+            )}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Confirm
+            {form.formState.isSubmitting && (
+              <ReloadIcon className="animate-spin h-4 w-4 ml-2" />
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
