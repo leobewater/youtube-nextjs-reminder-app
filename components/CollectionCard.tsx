@@ -10,9 +10,20 @@ import {
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { CollectionColor, CollectionColors } from '@/lib/constants';
-import { CaretDownIcon, CaretUpIcon } from '@radix-ui/react-icons';
+import { CaretDownIcon, CaretUpIcon, TrashIcon } from '@radix-ui/react-icons';
 import { Progress } from './ui/progress';
 import { Separator } from './ui/separator';
+import PlusIcon from './icons/PlusIcon';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/alert-dialog';
 
 interface Props {
   collection: Collection;
@@ -55,6 +66,29 @@ const CollectionCard = ({ collection }: Props) => {
         <Separator />
         <footer className="h-[40px] px-4 p-[2px] text-xs text-neutral-500 flex justify-between items-center">
           <p>Created at {collection.createdAt.toLocaleDateString('en-US')}</p>
+          <div>
+            <Button size={'icon'} variant={'ghost'}>
+              <PlusIcon />
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size={'icon'} variant={'ghost'}>
+                  <TrashIcon className="" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your collection and all tasks inside it.
+                </AlertDialogDescription>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Process</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </footer>
       </CollapsibleContent>
     </Collapsible>
