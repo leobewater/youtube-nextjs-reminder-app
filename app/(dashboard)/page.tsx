@@ -18,7 +18,7 @@ export default Home;
 // by default this is server component
 const WelcomeMsg = async () => {
   const user = await currentUser();
-  await wait(3000); // simulate delay
+//   await wait(3000); // simulate delay
 
   if (!user) {
     return <div>Error</div>;
