@@ -10,6 +10,7 @@ Video: https://www.youtube.com/watch?v=jAMVODrNd9I&ab_channel=CodewithKliton
 > npm i -D prisma
 > npx prisma init --datasource-provider sqlite
 > npx prisma migrate dev
+> npx prisma studio
 ```
 
 ## To Run
