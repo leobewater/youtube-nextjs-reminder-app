@@ -1,6 +1,6 @@
 'use client';
 
-import { Collection } from '@prisma/client';
+import { Collection, Task } from '@prisma/client';
 import React, { useState, useTransition } from 'react';
 import {
   Collapsible,
@@ -29,12 +29,17 @@ import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  collection: Collection;
+  // extends collection to include tasks
+  collection: Collection & {
+    tasks: Task[];
+  };
 }
 
 const CollectionCard = ({ collection }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
+  const tasks = collection.tasks;
+
   const [isLoading, startTransition] = useTransition();
 
   const removeCollection = async () => {
@@ -53,8 +58,6 @@ const CollectionCard = ({ collection }: Props) => {
       });
     }
   };
-
-  const tasks: string[] = ['task 1', 'task 2'];
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -115,7 +118,7 @@ const CollectionCard = ({ collection }: Props) => {
                     <AlertDialogAction
                       onClick={() => startTransition(removeCollection)}
                     >
-                      Process
+                      Proceed
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
