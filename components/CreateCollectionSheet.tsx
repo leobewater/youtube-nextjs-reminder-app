@@ -33,6 +33,8 @@ import { cn } from '@/lib/utils';
 import { Separator } from './ui/separator';
 import { Button } from './ui/button';
 import { createCollection } from '@/actions/collection';
+import { toast } from './ui/use-toast';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 interface Props {
   open: boolean;
@@ -48,10 +50,21 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
   const onSubmit = async (data: createCollectionSchemaType) => {
     //   console.log('SUBMITTED:', data);
     try {
-        await createCollection(data);
-        
+      await createCollection(data);
+
+      // close the sheet
+      openChangeWrapper(false);
+
+      toast({
+        title: 'Success',
+        description: 'Collection created successfully!',
+      });
     } catch (error: any) {
-      alert('ERROR');
+      toast({
+        title: 'Error',
+        description: 'Something went wrong. Please try again!',
+        variant: 'destructive',
+      });
       console.error('Error while creating collection', error);
     }
   };
@@ -136,6 +149,7 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
         <div className="flex flex-col gap-3 mt-4">
           <Separator />
           <Button
+            disabled={form.formState.isSubmitting}
             variant={'outline'}
             className={cn(
               form.watch('color') &&
@@ -144,6 +158,9 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
             onClick={form.handleSubmit(onSubmit)}
           >
             Confirm
+            {form.formState.isSubmitting && (
+              <ReloadIcon className="ml-2 h-4 w-4 animate-spin" />
+            )}
           </Button>
         </div>
       </SheetContent>
