@@ -35,6 +35,7 @@ import { Button } from './ui/button';
 import { createCollection } from '@/actions/collection';
 import { toast } from './ui/use-toast';
 import { ReloadIcon } from '@radix-ui/react-icons';
+import { useRouter } from 'next/navigation'
 
 interface Props {
   open: boolean;
@@ -47,6 +48,8 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
     defaultValues: {},
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: createCollectionSchemaType) => {
     //   console.log('SUBMITTED:', data);
     try {
@@ -54,6 +57,7 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
 
       // close the sheet
       openChangeWrapper(false);
+      router.refresh(); // refresh page to show the latest collections number
 
       toast({
         title: 'Success',
