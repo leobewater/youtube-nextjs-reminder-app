@@ -2,11 +2,17 @@
 
 import { Collection } from '@prisma/client';
 import React, { useState } from 'react';
-import { Collapsible, CollapsibleTrigger } from './ui/collapsible';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from './ui/collapsible';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import { CollectionColor, CollectionColors } from '@/lib/constants';
 import { CaretDownIcon, CaretUpIcon } from '@radix-ui/react-icons';
+import { Progress } from './ui/progress';
+import { Separator } from './ui/separator';
 
 interface Props {
   collection: Collection;
@@ -15,6 +21,8 @@ interface Props {
 const CollectionCard = ({ collection }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
 
+  const tasks: string[] = ['task 1', 'task 2'];
+
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger asChild>
@@ -22,6 +30,7 @@ const CollectionCard = ({ collection }: Props) => {
           variant={'ghost'}
           className={cn(
             'flex w-full justify-between p-6',
+            isOpen && 'rounded-b-none',
             CollectionColors[collection.color as CollectionColor]
           )}
         >
@@ -30,6 +39,24 @@ const CollectionCard = ({ collection }: Props) => {
           {isOpen && <CaretUpIcon className="h-6 w-6" />}
         </Button>
       </CollapsibleTrigger>
+      <CollapsibleContent className="flex rounded-b-md flex-col dark:bg-neutral-900 shadow-lg">
+        {tasks.length === 0 && <div>No tasks</div>}
+        {tasks.length > 0 && (
+          <>
+            <Progress className="rounded-none" value={45} />
+            <div className="p-4 gap-3 flex flex-col">
+              {tasks.map((task) => (
+                <div key={task}>Mocked Task</div>
+              ))}
+            </div>
+          </>
+        )}
+
+        <Separator />
+        <footer className="h-[40px] px-4 p-[2px] text-xs text-neutral-500 flex justify-between items-center">
+          <p>Created at {collection.createdAt.toLocaleDateString('en-US')}</p>
+        </footer>
+      </CollapsibleContent>
     </Collapsible>
   );
 };
