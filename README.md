@@ -1,5 +1,6 @@
 Video: https://www.youtube.com/watch?v=jAMVODrNd9I&ab_channel=CodewithKliton
 
+Git: https://github.com/Kliton/fullstack_remindMe_youtube_video
 
 ```
 > npm i @clerk/nextjs
