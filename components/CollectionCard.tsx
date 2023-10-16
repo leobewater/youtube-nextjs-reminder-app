@@ -101,7 +101,11 @@ const CollectionCard = ({ collection }: Props) => {
                   </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    {`Are you sure to delete  
+                    "${collection.name}" collection`}
+                    ?
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete
                     your collection and all tasks inside it.
