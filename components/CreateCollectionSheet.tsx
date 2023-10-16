@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sheet, SheetContent } from './ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from './ui/sheet';
 
 interface Props {
   open: boolean;
@@ -9,7 +9,12 @@ interface Props {
 const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent>test</SheetContent>
+      <SheetContent>
+        <SheetTitle>Add new collection</SheetTitle>
+        <SheetDescription>
+          Collections are a way to group your tasks
+        </SheetDescription>
+      </SheetContent>
     </Sheet>
   );
 };
