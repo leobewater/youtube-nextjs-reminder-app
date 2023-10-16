@@ -8,6 +8,7 @@ Video: https://www.youtube.com/watch?v=jAMVODrNd9I&ab_channel=CodewithKliton
 > npm install next-themes
 > npm i @prisma/client
 > npm i -D prisma
+> npx prisma init --datasource-provider sqlite
 ```
 
 ## To Run
