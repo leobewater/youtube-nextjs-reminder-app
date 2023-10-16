@@ -48,8 +48,13 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
     console.log('SUBMITTED:', data);
   };
 
+  const openChangeWrapper = (open: boolean) => {
+    form.reset();
+    onOpenChange(open);
+  };
+
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
+    <Sheet open={open} onOpenChange={openChangeWrapper}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Add new collection</SheetTitle>
@@ -122,7 +127,16 @@ const CreateCollectionSheet = ({ open, onOpenChange }: Props) => {
         </Form>
         <div className="flex flex-col gap-3 mt-4">
           <Separator />
-          <Button onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
+          <Button
+            variant={'outline'}
+            className={cn(
+              form.watch('color') &&
+                CollectionColors[form.getValues('color') as CollectionColor]
+            )}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            Confirm
+          </Button>
         </div>
       </SheetContent>
     </Sheet>
