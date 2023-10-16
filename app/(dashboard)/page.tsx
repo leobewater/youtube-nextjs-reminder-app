@@ -1,3 +1,4 @@
+import SadFace from '@/components/icons/SadFace';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 import prisma from '@/lib/prisma';
@@ -11,6 +12,9 @@ const Home = async () => {
       {/* show loading */}
       <Suspense fallback={<WelcomeMsgFallback />}>
         <WelcomeMsg />
+      </Suspense>
+      <Suspense fallback={<div>Loading collections...</div>}>
+        <CollectionList />
       </Suspense>
     </>
   );
@@ -27,7 +31,7 @@ const WelcomeMsg = async () => {
   }
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full mb-12">
       <h1 className="text-4xl font-bold">
         Welcome, <br />
         {user.firstName} {user.lastName}
@@ -38,7 +42,7 @@ const WelcomeMsg = async () => {
 
 const WelcomeMsgFallback = () => {
   return (
-    <div className="flex w-full">
+    <div className="flex w-full mb-12">
       <h1 className="text-4xl font-bold">
         <Skeleton className="w-[150px] h-[36px]" />
         <Skeleton className="w-[150px] h-[36px]" />
@@ -58,6 +62,7 @@ const CollectionList = async () => {
   if (collections.length === 0) {
     return (
       <Alert>
+        <SadFace />
         <AlertTitle>There are no collections yet!</AlertTitle>
         <AlertDescription>Create a collection to get started</AlertDescription>
       </Alert>
