@@ -24,6 +24,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from './ui/alert-dialog';
+import { deleteCollection } from '@/actions/collection';
+import { toast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   collection: Collection;
@@ -31,6 +34,24 @@ interface Props {
 
 const CollectionCard = ({ collection }: Props) => {
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
+
+  const removeCollection = async () => {
+    try {
+      await deleteCollection(collection.id);
+      toast({
+        title: 'Success',
+        description: 'Collection deleted successfully',
+      });
+      router.refresh();
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Cannot delete collection',
+        variant: 'destructive',
+      });
+    }
+  };
 
   const tasks: string[] = ['task 1', 'task 2'];
 
@@ -84,7 +105,9 @@ const CollectionCard = ({ collection }: Props) => {
                 </AlertDialogDescription>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Process</AlertDialogAction>
+                  <AlertDialogAction onClick={() => removeCollection()}>
+                    Process
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
